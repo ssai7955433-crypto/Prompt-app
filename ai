@@ -1,0 +1,21 @@
+import groq, os
+from dotenv import load_dotenv
+load_dotenv()
+client = groq.Groq(api_key=('GROQ_API_KEY'))
+def ask_groq(system_prompt, user_message, model='llama3-70b-8192', temperature=0.7):
+ response = client.chat.completions.create(
+model=model,
+messages=[
+{'role': 'system', 'content': system_prompt},
+{'role': 'user', 'content': user_message}
+],
+temperature=temperature,
+max_tokens=500
+)
+ response.choices[0].message.content
+# Test 1: Simple question
+reply = ask_groq(
+system_prompt='You are a concise assistant.',
+user_message='Explain what an API is in 2 sentences.'
+)
+print(reply)
